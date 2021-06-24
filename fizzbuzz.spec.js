@@ -1,3 +1,4 @@
+const { expect } = require('chai');
 const chai = require('chai')
 
 chai.should()
@@ -34,14 +35,24 @@ const FIZZ_BUZZ = 'FizzBuzz';
 const FIZZ = 'Fizz';
 const BUZZ = 'Buzz';
 
-const isMultipleOf = multiple => value => value % multiple === 0;
+const onMultipleOf = (multiple, expectedValue) =>  (value) => {
+    if(value % multiple === 0) return expectedValue;
+};
+const forOthersReturnSameValue = () => (value) => value.toString();
 
-const isZero = value => value === 0;
+const onZeroReturnSameValue = () => (value) => value === 0 ? value.toString() : undefined;
+
+const rules = [
+    onZeroReturnSameValue(),
+    onMultipleOf(15, FIZZ_BUZZ),
+    onMultipleOf(3, FIZZ),
+    onMultipleOf(5, BUZZ),
+    forOthersReturnSameValue(),
+];
 
 const fizzbuzz = (value) => {
-    if (isZero(value)) return value.toString();
-    if (isMultipleOf(15)(value)) return FIZZ_BUZZ;
-    if (isMultipleOf(3)(value)) return FIZZ;
-    if (isMultipleOf(5)(value)) return BUZZ;
-    return value.toString();
+    return rules
+            .map(rule => rule(value))
+            .find(result => result !== undefined);
 };
+
