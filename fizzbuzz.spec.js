@@ -20,7 +20,7 @@ describe('Fizzbuzz ', () => {
             fizzbuzz(v).should.be.equals('FizzBuzz');
         });
     });
-    
+
     it('tous les autres cas renvoie la même valeur en string', () => {
         fizzbuzz(1).should.be.equals('1');
     });
@@ -30,10 +30,18 @@ describe('Fizzbuzz ', () => {
     })
 });
 
+const FIZZ_BUZZ = 'FizzBuzz';
+const FIZZ = 'Fizz';
+const BUZZ = 'Buzz';
+
+const isMultipleOf = multiple => value => value % multiple === 0;
+
+const isZero = value => value === 0;
+
 const fizzbuzz = (value) => {
-    if(value === 0) return value.toString();
-    if (value % 15 === 0) return 'FizzBuzz';
-    if (value % 3 === 0) return 'Fizz';
-    if (value % 5 === 0) return 'Buzz';
+    if (isZero(value)) return value.toString();
+    if (isMultipleOf(15)(value)) return FIZZ_BUZZ;
+    if (isMultipleOf(3)(value)) return FIZZ;
+    if (isMultipleOf(5)(value)) return BUZZ;
     return value.toString();
 };
